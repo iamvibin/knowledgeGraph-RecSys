@@ -1,0 +1,1 @@
+10: Rating(User, Movie1) & Relation(Movie1, relation, Movie2) & Movie1!=Movie2 & Blocking(User1, Movie1) & Blocking(User2, Movie2) -> Rating(User, Movie2)
