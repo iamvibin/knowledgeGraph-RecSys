@@ -4,7 +4,7 @@ if __name__ == '__main__':
     np.random.seed(555)
 
     parser = argparse.ArgumentParser()
-    parser.add_argument('-d', type=str, default='movie', help='which dataset to preprocess')
+    parser.add_argument('-d', type=str, default='music', help='which dataset to preprocess')
     args = parser.parse_args()
     DATASET = args.d
     writer = open('../data/' + DATASET + '/blocking_obs.txt', 'w', encoding='utf-8')
@@ -43,29 +43,39 @@ if __name__ == '__main__':
         array = line.strip().split('\t')
         item1 = int(array[0])
         item2 = int(array[2])
+        user_set1 = set()
+        user_set2 = set()
 
         if item1 not in itemuser:
             item_set.add(item1)
             if item2 not in itemuser:
                 item_set.add(item2)
-            continue
-
-
-        user_set1 = itemuser[item1]
-        user_set2 = itemuser[item2]
+                continue
+        
+        if item1 in itemuser:
+            user_set1 = itemuser[item1]
+        if item2 in itemuser:
+            user_set2 = itemuser[item2]
 
         item2newUsers = user_set1 - user_set2
         item1newUsers = user_set2 - user_set1
 
         for user in item2newUsers:
             writer.write('%d\t%d\n' % (user, item2))
-            itemuser[item2].add(user)
+            if item2 in itemuser:
+                itemuser[item2].add(user)
+            else:
+                itemuser[item2]=set()
+                itemuser[item2].add(user)
 
 
         for user in item1newUsers:
             writer.write('%d\t%d\n' % (user, item1))
-            itemuser[item1].add(user)
-
+            if item1 in itemuser:
+                itemuser[item1].add(user)
+            else:
+                itemuser[item1]=set()
+                itemuser[item1].add(user)
 
 
     writer.close()
