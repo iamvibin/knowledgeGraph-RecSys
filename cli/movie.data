@@ -1,15 +1,17 @@
 predicates:
   Rating/2: open
   Relation/3: closed
-  Blocking/2: closed
+
+//Blocking/2: closed
 
 observations:
   Rating: ../data/movie/ratings_obs.txt
   Relation: ../data/movie/relations_obs.txt
-  Blocking: ../data/movie/blocking_obs.txt
+
+//Blocking: ../data/movie/blocking_obs.txt
 
 targets:
-  Rating: ../data/movie/ratings_target.txt
+  Rating: ../data/movie/ratingsNew_target.txt
 
 truth:
-  Rating: ../data/movie/ratings_truth.txt
+  Rating: ../data/movie/ratingsNew_truth.txt
