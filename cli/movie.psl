@@ -1,3 +1,13 @@
-//10: Rating(User, Movie1) & Relation(Movie1, relation, Movie2) & Movie1!=Movie2 & Blocking(User, Movie1) & Blocking(User, Movie2) -> Rating(User, Movie2)
+10: Rating(U, M1) & Blocking(U, M1) & Blocking(U, M2)  >> Rating(U, M2) ^2
+//10: Rating(U, M1) & Relation(M1, R, M2) & Blocking(U, M1) & Blocking(U, M2) >> Rating(U, M2) ^2
+10: Rating(U, M1) & Blocking(U, M1) & Blocking(U, M2) >> Rating(U, M2) ^2
+//10: Rating(U, M1) & Relation(M2, R, M1) & Blocking(U, M1) & Blocking(U, M2) >> Rating(U, M2) ^2
 
-10: Rating(User, Movie1) & Relation(Movie1, relation, Movie2) & Movie1!=Movie2 -> Rating(User, Movie2)
+//10: !Rating(U, M1) & Relation(M2, R, M1)  >> !Rating(U, M2) ^2
+//10: !Rating(U, M1) & Relation(M2, R, M1) & Blocking(U, M1) & Blocking(U, M2) >> !Rating(U, M2) ^2
+//10: !Rating(U, M1) & Relation(M2, R, M1)  >> !Rating(U, M2) ^2
+//10: !Rating(U, M1) & Relation(M2, R, M1) & Blocking(U, M1) & Blocking(U, M2) >> !Rating(U, M2) ^2
+
+//0.0001: !Rating(U, M) ^2
+//10: !Rating(User, Movie1) & Relation(Movie1, relation, Movie2) & Movie1!=Movie2 & Blocking(User, Movie1) & Blocking(User, Movie2) -> !Rating(User, Movie2) ^2
+//10: Rating(User, Movie1) & Relation(Movie1, relation, Movie2) & Movie1!=Movie2 -> Rating(User, Movie2)

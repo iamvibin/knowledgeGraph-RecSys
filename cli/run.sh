@@ -1,17 +1,16 @@
 #!/bin/bash
 
-readonly PSL_VERSION='2.1.0'
+readonly PSL_VERSION='2.2.2'
 readonly JAR_PATH="./psl-cli-${PSL_VERSION}.jar"
 readonly BASE_NAME='movie'
 
 readonly ADDITIONAL_PSL_OPTIONS=''
-readonly ADDITIONAL_EVAL_OPTIONS='--infer --eval org.linqs.psl.evaluation.statistics.DiscreteEvaluator'
+readonly ADDITIONAL_EVAL_OPTIONS='--int-ids --infer --eval org.linqs.psl.evaluation.statistics.DiscreteEvaluator'
 
 function main() {
    trap exit SIGINT
 
    # Get the data
-   getData
 
    # Make sure we can run PSL.
    check_requirements
@@ -24,7 +23,7 @@ function main() {
 function runEvaluation() {
    echo "Running PSL Inference"
 
-   java -Xms32g -Xmx32g -jar "${JAR_PATH}" --model "${BASE_NAME}.psl" --data "${BASE_NAME}.data" --output inferred-predicates ${ADDITIONAL_EVAL_OPTIONS} ${ADDITIONAL_PSL_OPTIONS}
+   java -Xms32g -Xmx32g -jar "${JAR_PATH}" --model "${BASE_NAME}.psl" -D log4j.threshold=TRACE --data "${BASE_NAME}.data" --output inferred-predicates ${ADDITIONAL_EVAL_OPTIONS} ${ADDITIONAL_PSL_OPTIONS}
    if [[ "$?" -ne 0 ]]; then
       echo 'ERROR: Failed to run infernce'
       exit 70
@@ -95,9 +94,8 @@ function fetch_psl() {
       local snapshotJARPath="$HOME/.m2/repository/org/linqs/psl-cli/${PSL_VERSION}/psl-cli-${PSL_VERSION}.jar"
       cp "${snapshotJARPath}" "${JAR_PATH}"
    else
-      local remoteJARURL="https://linqs-data.soe.ucsc.edu/maven/repositories/psl-releases/org/linqs/psl-cli/${PSL_VERSION}/psl-cli-${PSL_VERSION}.jar"
+      local remoteJARURL="https://repo1.maven.org/maven2/org/linqs/psl-cli/${PSL_VERSION}/psl-cli-${PSL_VERSION}.jar"
       fetch_file "${remoteJARURL}" "${JAR_PATH}" 'psl-jar'
    fi
 }
-
 main "$@"
